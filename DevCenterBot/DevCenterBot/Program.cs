@@ -23,6 +23,15 @@ namespace DevCenterBot
     {
         static void Main(string[] args)
         {
+            bool runForever = true;
+            while(runForever)
+            {
+                action();
+            }
+        }        
+
+        private static void action()
+        {
             TwitterHelper tw = new TwitterHelper();
 
             Console.Write("[+]Enter hashtag:");
@@ -40,15 +49,17 @@ namespace DevCenterBot
                 lists.Add(new ExcelUserVM
                 {
                     Name = name,
-                    FollowerCount =Convert.ToInt32(followerCount)
+                    FollowerCount = Convert.ToInt32(followerCount)
                 });
-                Console.WriteLine("[+]Profile Name: {0}\n[+]No. of Followers:{1}",name, followerCount);
-                Console.WriteLine("------------------------------------------");                               
+                Console.WriteLine("[+]Profile Name: {0}\n[+]No. of Followers:{1}", name, followerCount);
+                Console.WriteLine("------------------------------------------");
             }
-            ExcelHelper ex = new ExcelHelper();
-            ex.ExportExcel(lists);
-            Console.Read();            
-        }        
+
+            //ExcelHelper ex = new ExcelHelper();
+            //ex.ExportExcel(lists);
+            GoogleSheetHelper gSheet = new GoogleSheetHelper();
+            gSheet.writeOutputToSheet(lists);   
+        }
     }
     
 }
